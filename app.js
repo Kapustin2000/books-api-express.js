@@ -10,7 +10,7 @@ var booksRouter = require('./routes/books');
 
 var app = express();
 
-app.use(bodyParser);
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
