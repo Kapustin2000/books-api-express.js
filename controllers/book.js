@@ -22,6 +22,8 @@ exports.store = function async (req, res, next) {
         description: res.body.description
     })
 
+    res.json({message: 123});
+
     try {
         const savedBook = book.save();
         res.json(savedBook);
