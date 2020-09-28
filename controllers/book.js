@@ -1,8 +1,8 @@
 var Book = require('../models/Book');
 
-exports.index = function (req, res, next) {
+exports.index = async function (req, res, next) {
      try {
-         const books = Book.find();
+         const books = await Book.find();
 
          res.json(books);
 
@@ -11,18 +11,18 @@ exports.index = function (req, res, next) {
      }
 };
 
-exports.show = function async (req, res, next) {
-    console.log(res);
+exports.show = async function (req, res, next) {
+    const book = await Book.findById(req.params.bookId);
+
+    res.json({book: book});
 };
 
 exports.store = function async (req, res, next) {
-    console.log("here");
-    const book = new Book({
-        title: res.body.title,
-        description: res.body.description
-    })
 
-    res.json({message: 123});
+    const book = new Book({
+        title: req.body.title,
+        description: req.body.description
+    });
 
     try {
         const savedBook = book.save();
@@ -32,6 +32,31 @@ exports.store = function async (req, res, next) {
     }
 };
 
-exports.update = function async (req, res, next) {
-    console.log(res);
+exports.update = async function async (req, res, next) {
+    try{
+        const bookUpdated = await Book.updateOne(
+            {_id : req.params.bookId},
+            {
+                $set: {
+                    title: req.body.title,
+                    description: req.body.description
+                }
+            }
+        );
+
+        res.json(bookUpdated);  
+    } catch (err) {
+       res.json({message: err});
+    }
+};
+
+
+exports.delete = async function async (req, res, next) {
+    try{
+        const bookDeleted= await Book.remove({_id : req.params.bookId});
+
+        res.json(bookDeleted);
+    } catch (err) {
+        res.json({message: err});
+    }
 };

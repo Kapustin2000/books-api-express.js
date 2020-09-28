@@ -25,7 +25,7 @@ app.use(function(req, res, next) {
 });
 
 //Connect DB
-mongoose.connect('mongodb+srv://admin:admin@cluster0.ghjsq.mongodb.net/cluster?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://admin:admin@cluster0.ghjsq.mongodb.net/books?retryWrites=true&w=majority',
     {
         useUnifiedTopology: true,
         useNewUrlParser: true,

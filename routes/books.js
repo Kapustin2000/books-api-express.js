@@ -4,9 +4,9 @@ var controller = require('../controllers/book');
 
 /* GET users listing. */
 router.get('/', controller.index);
-router.get('/:book_id', controller.index);
+router.get('/:bookId', controller.show);
 router.post('/', controller.store);
-router.post('/:book_id', controller.index);
-
+router.patch('/:bookId', controller.update);
+router.delete('/:bookId', controller.delete);
 
 module.exports = router;
