@@ -1,4 +1,5 @@
 var User = require('../models/User');
+const {LoginValidation, RegisterValidation} = require('../validators/auth');
 
 
 exports.auth = function async (req, res, next) {
@@ -17,16 +18,23 @@ exports.auth = function async (req, res, next) {
     }
 };
 
-exports.register = function async (req, res, next) {
+exports.register = async function (req, res, next) {
 
-    const book = new Book({
-        title: req.body.title,
-        description: req.body.description
+    const { error } = RegisterValidation(res.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
+    const userExists = User.findOne({email: req.body.email});
+    if(userExists) return res.status(400).send("Email already has been taken");
+
+    const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
     });
 
     try {
-        const savedBook = book.save();
-        res.json(savedBook);
+        const userSaved = await user.save();
+        res.json(userSaved);
     } catch (err) {
         res.json({message: err})
     }
