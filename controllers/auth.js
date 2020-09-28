@@ -14,7 +14,7 @@ exports.login = async function (req, res, next) {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if(!validPass) return res.status(400).send("Email or password is invalid.");
 
-    const token = jwt.sign({_id: user._id}, 'dasdasdzxaxa12312321dsa');
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
 
     res.header('auth-token', token).send(token);
 };

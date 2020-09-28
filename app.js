@@ -4,7 +4,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-
+const env = require('dotenv');
 var indexRouter = require('./routes/index');
 var booksRouter = require('./routes/books');
 var authRouter = require('./routes/auth');
@@ -26,8 +26,10 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+env.config();
+
 //Connect DB
-mongoose.connect('mongodb+srv://admin:admin@cluster0.ghjsq.mongodb.net/books?retryWrites=true&w=majority',
+mongoose.connect(process.env.DB_CONNECTION,
     {
         useUnifiedTopology: true,
         useNewUrlParser: true,
